@@ -1,0 +1,7 @@
+function hprint(str)
+set(gcf,'paperpositionmode','auto','renderer','opengl')
+%print('-djpeg','-r600','-painter',[str '.jpg'])
+%print('-dtiff','-r600','-painter',[str '.tif'])
+print('-depsc2','-r600','-painter',[str '.eps'])
+print('-dpdf','-r600','-painter',[str '.pdf'])
+%print('-dpng','-r600','-painter',[str '.png'])

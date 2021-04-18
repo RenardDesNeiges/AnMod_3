@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+
+
+\usepackage[margin=1in,a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{tabularx}
+\usepackage{quoting}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{nicefrac}
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{epigraph} %quotes
+\usepackage{amssymb} %math symbols
+\usepackage{mathtools} %more math stuff
+\usepackage{amsthm} %theorems, proofs and lemmas
+\usepackage{optidef} %fast optimization problem notation
+\usepackage{changepage}
+\usepackage{gensymb}
+\usepackage[ruled,vlined,noend,linesnumbered]{algorithm2e} %algoritms/pseudocode
+
+
+%% asmthm notation
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{problem}{Problem}
+\newtheorem{definition}{Definition}
+\newtheorem{claim}{Claim}[section]
+
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one specific line in algorithm
+
+\title{BIOENG-404 - Homework 2: OpenSim}
+\author{
+    Nathan Girard
+        SV - Neurocomputational
+        \and
+    Titouan Renard
+            MT - Robotics 
+}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+\begin{adjustwidth}{0.5cm}{}
+    \textit{No questions in the Overview section}
+\end{adjustwidth}
+\section{Generic Model}
+
+\begin{enumerate}
+    \item How many bodies (segments) does model\_generic have?
+    \begin{adjustwidth}{0.5cm}{}
+        $12$
+    \end{adjustwidth}
+    \item How many coordinates (degrees of freedom) does model\_generic have?
+    \begin{adjustwidth}{0.5cm}{}
+        $19$
+    \end{adjustwidth}
+    \item Which two bodies are connected by the hip\_r joint?
+    \begin{adjustwidth}{0.5cm}{}
+        \texttt{pelvis} and \texttt{femur\_r}
+    \end{adjustwidth}
+    \item Which coordinate represents right ankle flexion? In this model, is dorsiflexion described as a positive or negative angle?
+    \begin{adjustwidth}{0.5cm}{}
+        \texttt{ankle\_angle\_r} is the right ankle flexion coordinate. Dorsiflexion is associated with a positive increase in the \texttt{ankle\_angle\_r} coordinate.
+    \end{adjustwidth}
+    \item What is the maximum isometric force that the soleus muscle can produce?
+    \begin{adjustwidth}{0.5cm}{}
+        \texttt{max\_isometric\_force}$=3549.0N$
+    \end{adjustwidth}
+    \item Some muscles in the model are represented by multiple muscle-tendon actuators. For example, the gluteus medius muscle is split into glut\_med1, glut\_med2, and glut\_med3. Which other muscles in the model are divided into multiple compartments? Why do you think these muscles are represented this way?
+    \begin{adjustwidth}{0.5cm}{}
+        The \textit{gluteus medius} muscle is a relatively "wide muscle", it is attached to the ilium along a line and has a much more narrow attachment to the greater trochanter (on the femur). This means it would be inaccurate to model it using a simple "point-to-point" model as is normally the case with OpenSim muscles (one would miss moments created by the width of the muscle for example). 
+        \BlankLine
+        It is not the only muscle represented that way in the simulation, the \textit{gluteus minimus} \texttt{glut\_min1,2,3\_l,r}, the \textit{gluteus maximus} \texttt{glut\_max1,2,3\_l,r}, the \textit{adductor magnus}, \texttt{add\_mag\_1,2,3\_l,r} are also represented in that way, presumably for the same reasons.
+    \end{adjustwidth}
+\end{enumerate}
+
+\section{Tools for analyzing models and data}
+
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item Are the ankle flexion moment arms of the gastrocnemius and soleus muscles plotted as positive or negative? Given the muscles’ geometric paths and the sign convention for the ankle\_angle\_r coordinate as defined in model\_generic, does your answer make sense?
+    \begin{adjustwidth}{0.5cm}{}
+        The flexion moment arms are both negative. This makes sense as when standing the moment that the bodies creates on the ankle is in the sense of dorsiflexion (which here is labelled as positive) to counteract this effect the ankle muscle thus have to produce a negative moment.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{screens/compound.png}
+            \caption{left : moments as plotted in OpenSim (left) and schematic representation of the ankle and moments in the sagittal plane (right)}
+        \end{figure}
+    \end{adjustwidth}
+    \item Your plot shows the muscles’ moment arms about the ankle with the knee fully extended. Do you think the muscles’ moment arms about the ankle will change if the knee is flexed?
+    \begin{adjustwidth}{0.5cm}{}
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.6\textwidth]{screens/flexed_straight.jpg}
+            \caption{Plot of moments in the ankle for both flexed and straight knee.}
+        \end{figure}
+        When the knee is flexed, the ankle is subject to much more intense moments than when it is straight as can be show in OpenSim by plotting the straight and flexed ($90\degree$) knee moments together.
+    \end{adjustwidth}
+    \item Open the task.c3d file located in tutorial/experimental\_data with Mokka.
+    \begin{enumerate}
+        \item Report the subject's height, weight, age, and sex by inspecting the metadata
+        \begin{adjustwidth}{0.5cm}{}
+            The subject is a $15$ year old \textit{male}, weighting $41.5kg$ and of $1610mm$ height.
+        \end{adjustwidth}
+        \item How does the coordinate system of the experiment (lab) differ from the coordinate
+        system in OpenSim?
+        \begin{adjustwidth}{0.5cm}{}
+            In OpenSim, the up direction corresponds to the $y$ axis, in the experiment, the $z$ axis points up.
+        \end{adjustwidth}
+        \item Visualize the ground reaction forces (Analog channels, then drag and drop the
+        component into an analog type plot). What do you observe in terms of the quality of
+        the signal?
+        \begin{adjustwidth}{0.5cm}{}
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[width=0.6\textwidth]{screens/ground_reaction.png}
+                \caption{Ground reaction forces, as displayed in Mokka}
+            \end{figure}
+            The signal is somewhat noisy and only shows values when the patient is walking over the pressure plate.
+        \end{adjustwidth}
+        \item Calculate the linear envelop (Tools -> Analog -> Smooth / Linear Envelope) of the right
+        tibialis anterior’s EMG. What is the linear envelop?
+        \begin{adjustwidth}{0.5cm}{}
+            \textbf{wtf is the tibialis anterior’s emg lol}
+        \end{adjustwidth}
+    \end{enumerate}
+    \item Preview the markers (task.trc) and ground reaction forces (task\_grf.mot) in the OpenSim GUI
+    by synchronizing them. Check if the forces are correctly applied to the foot. Which labels in the ground reaction force data correspond to the left and right leg?
+    \begin{adjustwidth}{0.5cm}{}
+        \textbf{wtf is the tibialis anterior’s emg lol}
+    \end{adjustwidth}
+    \item What is the function of the Adjust Model Markers option in the Scaling tool?
+    \item What is the scale factor for the left talus, calcaneus, and toes?
+    \item In the metadata of the task.c3d file in Mokka (View -> Metadata -> SUBJECTS), there exist direct segment length measurements. Compare the left and right foot length and the one reported by the Scaling tool (check the message window after running the tool, where the length is reported in meters).
+    \item For the model shown on the right, which coordinate(s) need to be adjusted to create a model pose that “best matches” the experimental markers shown at the beginning of the swing phase?
+    \item For the model poses and experimental markers shown below, which combination of pose and markers has the minimum marker errors?
+    \item In theory, experimental markers on the thigh and shank could have more skin movement artifacts compared with the foot markers; which of the following scenarios would be most appropriate for the weighted least squares minimization solved by the Inverse Kinematics Tool?
+    \item What is the root-mean-squared (RMS) marker error from the last frame of the motion? Does this seem reasonable?
+    \item Plot the hip flexion-extension, knee flexion-extension, and ankle plantar flexion-dorsiflexion angles of the left leg on a single graph. Search through the internet and compare the shape of these curves for a healthy gait. Do they seem normal?
+    \item For the model shown on the right, what is the value ($\theta$) of the knee coordinate (Note: extension is +)?
+    \item Given that the model shown on the right is at rest, what is the knee's velocity?
+    \item For the model poses shown below at rest and with gravity (g) as the only force acting on the model, which pose requires the largest torque at the knee joint?
+    \item Plot the hip flexion-extension, knee flexion-extension, and ankle plantar flexion-dorsiflexion moments of the left leg on a single graph. Search through the internet and compare the shape of these curves for a healthy gait. Do they seem normal?
+    \item Why does the force-length curve of the contractile element of the muscle have a bell shape? Please elaborate. 
+    \item What is the meaning of the force-velocity shape of the contractile element, and how does it relates to physiology? 
+    \item After executing SO, the muscle activations task\_StaticOptimization\_activation.sto are exported in the static\_optimization folder. The EMG envelop emg\_env.sto was extracted and saved in the experimental\_data folder. Compare the activations predicted by SO with the EMG for the following muscles: lat\_gas\_l, tib\_ant\_l, rect\_fem\_l. Please comment.
+    \item What is the difference between muscle excitation and activation? What does the EMG measure? How can we compare measured EMG and predicted muscle activity from OpenSim?
+    \item Is the cost function used in SO appropriate for studying pathological conditions such as Cerebral palsy or Parkinson’s disease?
+\end{enumerate}
+
+\end{document}
