@@ -56,11 +56,11 @@
 \section{Deliverables}
 
 \begin{enumerate}
-    \item Plot a graph with several successful solutions as the ones shown in Figure 2 of Seyfarth et al.
+    \item Plot a graph with several successful solutions as the ones shown in Figure 2 of Seyfarth et al \cite{1}.
     \begin{adjustwidth}{0.5cm}{}
         \begin{figure}[h!]
             \centering
-            \includegraphics[width=0.9\textwidth]{screens/plot_2.jpg}
+            \includegraphics[width=0.9\textwidth]{screens/fig_4.jpg}
             \caption{Stability (measured in step numbers) for different $K$ (spring stiffness) and $\alpha$ (angle of attack) values.}
             \label{stability_domain}
         \end{figure}
@@ -76,6 +76,9 @@
     \item Do you think counting the number of steps is a good measure of stability? How can a Return Map (or Poincaré Map) be used to evaluate the system's stability? For more details on this method, please refer to the lecture notes as well as the reference.
     \begin{adjustwidth}{0.5cm}{}
         Counting the number of steps provides an estimation of running stability and accurately detects unstable systems in cases when the modeled runner falls in a short number of step but has the major disadvantage of providing no absolute guarantee for stability in cases where the system does not fall for a high number of steps (this metric cannot differentiate a case where the runner falls after 21 steps from a case where it continues toward infinity). 
+        \BlankLine
+        A more robust measurement is provided by the analysis of return maps and the analysis of limit-cycle behavior.
+        \[  \]
     \end{adjustwidth}
 
     \item Which aspects of human locomotion's biomechanics can be investigated with this type of model, ad which one cannot be investigated?Which aspects of human locomotion's biomechanics can be investigated with this type of model, ad which one cannot be investigated?
