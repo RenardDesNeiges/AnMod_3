@@ -47,7 +47,7 @@
         SV - Neurocomputational
         \and
     Titouan Renard
-            MT - Robotics 
+        MT - Robotics 
 }
 \date{\today}
 
@@ -73,22 +73,24 @@
 
     \item Explain the trend you observe in the graph and its meaning from a biomechanics perspective.
     \begin{adjustwidth}{0.5cm}{}
-        From the graph, we observe that the running gait is only stable on a limited domain of initial conditions (here we observe the evolution of stability as a function of spring stiffness $K$ and angle of attack $\alpha$, while using fixed) : the so called \textit{running domain}. On the graph we observe that the domain for which the model produces stable running are placed along a "J" shaped line with equation 
+        From the graph, we observe that the running gait is only stable on a limited domain of initial conditions (here we observe the evolution of stability as a function of spring stiffness $K$ and angle of attack $\alpha$, the running speed is fixed) : the so called \textit{running domain}. On the graph we observe that the domain for which the model produces stable running are placed along a "J" shaped line with equation 
         \[ K \cdot (1 - \sin \alpha) = \text{const}. \]
         This result closely matches experimental data for leg-stiffness to angle of attack in human running as has been shown by Seyfarth et al. \cite{1}. This suggests that a simple model such as SLIP accurately captures the fundamental dynamics of running in biology.
     \end{adjustwidth}
 
     \item Do you think counting the number of steps is a good measure of stability? How can a Return Map (or Poincaré Map) be used to evaluate the system's stability? For more details on this method, please refer to the lecture notes as well as the reference.
     \begin{adjustwidth}{0.5cm}{}
-        Counting the number of steps provides an estimation of running stability and accurately detects unstable systems in cases when the modeled runner falls in a short number of step but has the major disadvantage of providing no absolute guarantee for stability in cases where the system does not fall for a high number of steps (this metric cannot differentiate a case where the runner falls after 21 steps from a case where it continues toward infinity). 
+        Counting the number of steps provides an estimation of running stability and accurately detects unstable systems in cases when the modeled runner falls in a short number of steps but has the major disadvantage of providing no absolute guarantee for stability in cases where the system does not fall for a high number of steps (this metric cannot differentiate a case where the runner falls after 21 steps from a case where it continues toward infinity). 
         \BlankLine
-        A more robust measurement is provided by the analysis of return maps and the analysis of limit-cycle behavior. A really common approach is to investigated the evolution, convergence and basin of attraction of various parameters when the system reaches \textit{apex heigh}. A periodic solution where deviation from a given solution diminish consistently from one step to the next ($\abs{\frac{dy_{i+1}}{dy_{i}}} < 1$) indicates a stable solution to the system.
+        A more robust measurement is provided by the analysis of return maps and the analysis of limit-cycle behavior. A really common approach is to investigated the evolution, convergence and basin of attraction of various parameters when the system reaches \textit{apex heigh}. A periodic solution where deviation from a fixed point diminish consistently from one step to the next ($\abs{\frac{dy_{i+1}}{dy_{i}}} < 1$) indicates a stable solution to the system.
         \[  \]
     \end{adjustwidth}
 
-    \item Which aspects of human locomotion's biomechanics can be investigated with this type of model, and which one cannot be investigated?Which aspects of human locomotion's biomechanics can be investigated with this type of model, ad which one cannot be investigated?
+    \item Which aspects of human locomotion's biomechanics can be investigated with this type of model, and which one cannot be investigated? Which aspects of human locomotion's biomechanics can be investigated with this type of model, ad which one cannot be investigated?
     \begin{adjustwidth}{0.5cm}{}
-        The SLIP model provides a good tool to model human running, it is unable to model walking without some kind of extension. A really common approach to extend it to walking is to model a two leg system rather than a single leg system. 
+        The SLIP model provides a good tool to model human running,   it is unable to model walking without some kind of extension. A really common approach to extend it to walking is to model a two leg system rather than a single leg system. 
+        \BlankLine
+        Furthermore the SLIP model reduces biomechanics to simple spring-like systems, that provide no information on the mechanical constraints that muscles tendons and bones are subject to (one can think of SLIP models as macro rather than microscopic models). This makes SLIP unable to give direct information that is relevant to pathology and other topics that require precise estimates of constraints on the human body.
     \end{adjustwidth}
 \end{enumerate}
 
